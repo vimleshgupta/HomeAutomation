@@ -4,11 +4,9 @@ import com.pi4j.io.gpio.RaspiPin.{GPIO_00, GPIO_02, GPIO_07}
 import com.pi4j.io.gpio._
 import home.automation.model.{Sensor, Switch}
 
-class RasPiService {
+case class RasPiService(sensor: Sensor, switch: Switch) {
 
   lazy val gpioController = GpioFactory.getInstance()
-  lazy val sensor = Sensor(GPIO_00, GPIO_07)
-  lazy val switch = Switch(GPIO_02)
 
   var isSensorEnabled = false
 
@@ -39,11 +37,15 @@ class RasPiService {
   }
 
   def stopSensor() = isSensorEnabled = false
+
+  def switchOn() = switch.on()
+
+  def switchOff() = switch.off()
 }
 
 object RasPiService {
 
-  private val instance = new RasPiService()
+  private val instance = RasPiService(Sensor(GPIO_00, GPIO_07), Switch(GPIO_02))
 
-  def apply() = instance
+  def apply(): RasPiService = instance
 }

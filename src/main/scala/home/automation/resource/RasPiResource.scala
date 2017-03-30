@@ -21,13 +21,13 @@ class RasPiResource {
   @GET
   @Path("/on")
   def on(): Unit = {
-    RasPiService().switch.on()
+    RasPiService().switchOn()
   }
 
   @GET
   @Path("/off")
   def off(): Unit = {
-    RasPiService().switch.off()
+    RasPiService().switchOff()
   }
 
 

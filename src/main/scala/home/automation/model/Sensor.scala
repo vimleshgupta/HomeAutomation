@@ -8,7 +8,6 @@ import scala.util.control.Breaks._
 case class Sensor(echoPin: GpioPinDigitalInput, triggerPin: GpioPinDigitalOutput) {
 
   val speedOfSound = 34029
-  var isSenssorEnabled = false
 
   val tolerance = 10
   var maxDeadTarget = 0D
@@ -33,32 +32,27 @@ case class Sensor(echoPin: GpioPinDigitalInput, triggerPin: GpioPinDigitalOutput
     distanceInCM
   }
 
-  def isAnyObjectDetected = {
+  def isAnyObjectDetected: Boolean = {
 
-    var count = 0
-    var result = true
-    breakable {
-      for (i <- 1 to 5) {
-        val distance = trigger()
-        if (isReachableToDeadTarget(distance, tolerance)) count += 1
+    var reachedDeadTarget = 0
 
-        if (count == 3) {
-          result = false
-          break
-        }
-      }
+    for (i <- 1 to 5) {
+      val distance = trigger()
+      reachedDeadTarget = if (isReachableToDeadTarget(distance)) reachedDeadTarget + 1 else reachedDeadTarget
+      if (reachedDeadTarget == 3) return false
+      if (reachedDeadTarget == 0 && i == 3) return true
     }
-    result
+    true
   }
 
-  def isReachableToDeadTarget(distance: Double, tolerance: Int) = {
+  def isReachableToDeadTarget(distance: Double) = {
     distance < maxDeadTarget && distance > minDeadTarget
   }
 
   def setDeadTarget() = {
     val target = trigger()
-    maxDeadTarget = target + 10
-    minDeadTarget = target - 10
+    maxDeadTarget = target + tolerance
+    minDeadTarget = target - tolerance
   }
 
 }

@@ -5,7 +5,7 @@ apply plugin: 'scala'
 apply plugin: 'war'
 apply plugin: 'idea'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 war {
     archiveName 'home-automation.war'
@@ -25,5 +25,26 @@ dependencies {
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: '2.25'
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.25'
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+//    testCompile group: 'org.specs2', name: 'specs2-core_2.12', version: '3.8.9'
+//    testCompile group: 'org.specs2', name: 'specs2-mock_2.12', version: '3.8.9'
+
+//    testCompile group: 'org.scalamock', name: 'scalamock-specs2-support_2.12', version: '3.5.0'
+
+    testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.4'
+    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.6.4'
+
+//    testCompile group: 'org.scalactic', name: 'scalactic_2.12', version: '3.0.1'
+    testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.1'
+
 }
+
+//task specs(type: JavaExec, dependsOn: testClasses) {
+//    main = 'org.specs2.runner.files'
+//    args = ['console']
+//    classpath sourceSets.main.runtimeClasspath
+//    classpath sourceSets.test.runtimeClasspath
+//    classpath configurations.testRuntime
+//    classpath configurations.runtime
+//}
+//
+//test.dependsOn specs
