@@ -6,34 +6,36 @@ import home.automation.service.RasPiService
 
 class RasPiResource {
 
+  private val rasPiService = RasPiService()
+
   @GET
   @Path("/startSensor")
   def startSensor(): Unit = {
-    RasPiService().startSensor()
+    rasPiService.startSensor()
   }
 
   @GET
   @Path("/stopSensor")
   def stopSensor(): Unit = {
-    RasPiService().stopSensor()
+    rasPiService.stopSensor()
   }
 
   @GET
   @Path("/on")
   def on(): Unit = {
-    RasPiService().switchOn()
+    rasPiService.switchOn()
   }
 
   @GET
   @Path("/off")
   def off(): Unit = {
-    RasPiService().switchOff()
+    rasPiService.switchOff()
   }
 
 
   @GET
   @Path("/shutdown")
   def shutdown(): Unit = {
-    RasPiService().cleanup()
+    rasPiService.cleanup()
   }
 }
